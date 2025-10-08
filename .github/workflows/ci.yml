@@ -1,53 +1,15 @@
-name: CI/CD Pipeline
+name: CI
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   pull_request:
     branches: [main]
 
 jobs:
-  test:
-    name: Test
+  ci:
+    name: CI
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [18, 20]
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          cache-dependency-path: 'idea-vault/package-lock.json'
-
-      - name: Install dependencies
-        working-directory: ./idea-vault
-        run: npm ci --legacy-peer-deps
-
-      # Skip type check for now - will be enabled once all types are fixed
-      # - name: Type check
-      #   working-directory: ./idea-vault
-      #   run: npx tsc --noEmit
-
-      - name: Lint
-        working-directory: ./idea-vault
-        run: npm run lint
-
-      # Skip tests for now since we don't have them set up yet
-      # - name: Run tests
-      #   working-directory: ./idea-vault
-      #   run: npm run test
-
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-    needs: test
 
     steps:
       - name: Checkout code
@@ -64,18 +26,22 @@ jobs:
         working-directory: ./idea-vault
         run: npm ci --legacy-peer-deps
 
-      - name: Build application
+      - name: Lint
+        working-directory: ./idea-vault
+        run: npm run lint
+
+      - name: Type check
+        working-directory: ./idea-vault
+        run: npx tsc --noEmit
+
+      - name: Build
         working-directory: ./idea-vault
         run: npm run build
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: build
-          path: idea-vault/.next/
-
-  # Vercel deployment is handled automatically by Vercel GitHub integration
-  # No need for manual deployment steps when using Vercel's GitHub app
+      # Tests will be added in future iterations
+      # - name: Test
+      #   working-directory: ./idea-vault
+      #   run: npm run test
