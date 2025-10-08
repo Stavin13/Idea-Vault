@@ -1,9 +1,17 @@
 {
   "version": 2,
   "builds": [
-    { "src": "idea-vault/package.json", "use": "@vercel/next" }
+    {
+      "src": "idea-vault/package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/idea-vault/$1"
+    }
   ],
   "installCommand": "cd idea-vault && npm install --legacy-peer-deps",
-  "buildCommand": "cd idea-vault && npm run build",
-  "outputDirectory": "idea-vault/.next"
+  "buildCommand": "cd idea-vault && npm run build"
 }
