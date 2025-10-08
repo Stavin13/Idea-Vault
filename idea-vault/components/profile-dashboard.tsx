@@ -6,11 +6,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
-import { mockIdeas } from "@/lib/mock-data"
 import { IdeaCard } from "./idea-card"
+import { useIdeas } from "@/hooks/use-ideas"
+import { useAuth } from "@/hooks/use-auth"
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
 
 export function ProfileDashboard() {
   const [tab, setTab] = useState("my")
+  const { ideas, loading } = useIdeas()
+  const { user } = useAuth()
+
+  // Filter user's ideas
+  const userIdeas = ideas.filter(idea => idea.author_id === user?.id)
 
   return (
     <section className="mx-auto max-w-6xl px-4 py-8">
@@ -21,11 +28,12 @@ export function ProfileDashboard() {
             <AvatarFallback>IV</AvatarFallback>
           </Avatar>
           <div>
-            <h1 className="text-2xl font-semibold">Alex Innovator</h1>
-            <p className="text-muted-foreground">Joined Jan 2024 • 12 ideas • 340 votes</p>
+            <h1 className="text-2xl font-semibold">{user?.name || user?.email || 'User'}</h1>
+            <p className="text-muted-foreground">
+              {userIdeas.length} ideas • Active contributor
+            </p>
             <div className="mt-2 flex gap-2">
-              <span className="rounded-full bg-success/15 px-2 py-1 text-xs text-success">Builder</span>
-              <span className="rounded-full bg-warning/15 px-2 py-1 text-xs text-warning">Early</span>
+              <span className="rounded-full bg-primary/15 px-2 py-1 text-xs text-primary">Contributor</span>
             </div>
           </div>
         </div>
@@ -43,10 +51,18 @@ export function ProfileDashboard() {
         </TabsList>
 
         <TabsContent value="my" className="mt-4">
-          <Grid ideas={mockIdeas.slice(0, 6)} />
+          {loading ? (
+            <div className="flex justify-center py-8">
+              <LoadingSpinner />
+            </div>
+          ) : (
+            <Grid ideas={userIdeas} />
+          )}
         </TabsContent>
         <TabsContent value="voted" className="mt-4">
-          <Grid ideas={mockIdeas.slice(6, 12)} />
+          <Card className="p-6 text-muted-foreground">
+            Voted ideas feature coming soon!
+          </Card>
         </TabsContent>
         <TabsContent value="drafts" className="mt-4">
           <Card className="p-6 text-muted-foreground">No drafts yet.</Card>
@@ -60,6 +76,14 @@ export function ProfileDashboard() {
 }
 
 function Grid({ ideas }: { ideas: any[] }) {
+  if (ideas.length === 0) {
+    return (
+      <Card className="p-6 text-center text-muted-foreground">
+        <p>No ideas yet. Start sharing your ideas!</p>
+      </Card>
+    )
+  }
+
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       {ideas.map((idea) => (
