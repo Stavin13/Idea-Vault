@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, createContext, useContext } from 'react'
-import { supabase, type User } from '@/lib/supabase'
+import { supabase, type User, isSupabaseConfigured } from '@/lib/supabase'
 import type { AuthError, Session } from '@supabase/supabase-js'
 
 interface AuthContextType {
@@ -30,6 +30,12 @@ export function useAuthProvider() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    // Skip auth initialization if Supabase is not properly configured
+    if (!isSupabaseConfigured()) {
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
@@ -39,6 +45,9 @@ export function useAuthProvider() {
         name: session.user.user_metadata?.name,
         avatar: session.user.user_metadata?.avatar_url
       } : null)
+      setLoading(false)
+    }).catch(() => {
+      // Handle auth errors gracefully
       setLoading(false)
     })
 
