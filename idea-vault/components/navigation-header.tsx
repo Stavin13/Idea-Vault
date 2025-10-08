@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/hooks/use-auth"
 import { toast } from "sonner"
@@ -24,15 +24,35 @@ import { toast } from "sonner"
 export function NavigationHeader() {
   const pathname = usePathname()
   const [q, setQ] = useState("")
-  const { user, signOut } = useAuth()
+  const { user, signOut, loading } = useAuth()
+  const [mounted, setMounted] = useState(false)
+
+  // Prevent hydration mismatch by only rendering user-dependent content after mount
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   const handleSignOut = async () => {
     try {
       await signOut()
       toast.success("Signed out successfully")
-    } catch (error) {
+    } catch {
       toast.error("Failed to sign out")
     }
+  }
+
+  // Get avatar fallback text safely
+  const getAvatarFallback = () => {
+    if (!mounted || loading) return 'IV'
+    if (!user) return 'IV'
+    const name = user.name || user.email
+    return name ? name.slice(0, 2).toUpperCase() : 'IV'
+  }
+
+  // Get display name safely
+  const getDisplayName = () => {
+    if (!mounted || loading) return 'My Account'
+    return user ? user.name || user.email : 'My Account'
   }
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (
@@ -105,17 +125,17 @@ export function NavigationHeader() {
                 <Avatar className="h-7 w-7">
                   <AvatarImage src={user?.avatar || "/diverse-avatars.png"} alt="" />
                   <AvatarFallback>
-                    {user ? (user.name || user.email).slice(0, 2).toUpperCase() : 'IV'}
+                    {getAvatarFallback()}
                   </AvatarFallback>
                 </Avatar>
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuLabel>
-                {user ? user.name || user.email : 'My Account'}
+                {getDisplayName()}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {user ? (
+              {mounted && user ? (
                 <>
                   <DropdownMenuItem asChild>
                     <Link href="/profile">Profile</Link>

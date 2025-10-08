@@ -15,7 +15,7 @@ export function SupabaseTest() {
     const testConnection = async () => {
       try {
         // Test basic connection
-        const { data, error } = await supabase.from('ideas').select('count', { count: 'exact', head: true })
+        const { error } = await supabase.from('ideas').select('count', { count: 'exact', head: true })
         
         if (error) {
           if (error.message.includes('relation "public.ideas" does not exist')) {

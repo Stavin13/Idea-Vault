@@ -93,7 +93,7 @@ CREATE POLICY "Users can delete their own votes" ON idea_votes FOR DELETE USING 
       setCopied(true)
       toast.success('SQL script copied to clipboard!')
       setTimeout(() => setCopied(false), 2000)
-    } catch (err) {
+    } catch {
       toast.error('Failed to copy to clipboard')
     }
   }
@@ -116,7 +116,7 @@ CREATE POLICY "Users can delete their own votes" ON idea_votes FOR DELETE USING 
             <li>Open your Supabase project dashboard</li>
             <li>Navigate to the SQL Editor</li>
             <li>Copy the SQL script below and paste it into the editor</li>
-            <li>Click "Run" to execute the script</li>
+            <li>Click &quot;Run&quot; to execute the script</li>
             <li>Refresh this page to start using IdeaVault</li>
           </ol>
         </div>

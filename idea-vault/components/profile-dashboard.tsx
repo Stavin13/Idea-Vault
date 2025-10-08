@@ -10,6 +10,7 @@ import { IdeaCard } from "./idea-card"
 import { useIdeas } from "@/hooks/use-ideas"
 import { useAuth } from "@/hooks/use-auth"
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
+import type { Idea } from '@/lib/supabase'
 
 export function ProfileDashboard() {
   const [tab, setTab] = useState("my")
@@ -75,7 +76,7 @@ export function ProfileDashboard() {
   )
 }
 
-function Grid({ ideas }: { ideas: any[] }) {
+function Grid({ ideas }: { ideas: Idea[] }) {
   if (ideas.length === 0) {
     return (
       <Card className="p-6 text-center text-muted-foreground">

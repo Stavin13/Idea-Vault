@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { NavigationHeader } from "@/components/navigation-header"
 import { FiltersSidebar } from "@/components/filters-sidebar"
 import { IdeaCard } from "@/components/idea-card"
