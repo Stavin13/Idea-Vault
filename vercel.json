@@ -1,6 +1,9 @@
 {
-  "buildCommand": "npm run build",
-  "installCommand": "npm install --legacy-peer-deps",
-  "outputDirectory": ".next",
-  "cwd": "idea-vault"
+  "version": 2,
+  "builds": [
+    { "src": "idea-vault/package.json", "use": "@vercel/next" }
+  ],
+  "installCommand": "cd idea-vault && npm install --legacy-peer-deps",
+  "buildCommand": "cd idea-vault && npm run build",
+  "outputDirectory": "idea-vault/.next"
 }
