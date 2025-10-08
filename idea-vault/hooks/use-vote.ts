@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { supabase } from '@/lib/supabase'
-import { useAuth } from './use-auth'
+import { useAuth } from '@/hooks/use-auth'
 
 export function useVote() {
   const [loading, setLoading] = useState(false)
