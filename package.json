@@ -1,0 +1,15 @@
+{
+  "name": "idea-vault-workspace",
+  "version": "1.0.0",
+  "description": "IdeaVault - A modern idea sharing platform",
+  "private": true,
+  "scripts": {
+    "dev": "cd idea-vault && npm run dev",
+    "build": "cd idea-vault && npm run build",
+    "start": "cd idea-vault && npm run start",
+    "install": "cd idea-vault && npm install --legacy-peer-deps"
+  },
+  "keywords": ["nextjs", "supabase", "ideas", "voting", "realtime"],
+  "author": "Your Name",
+  "license": "MIT"
+}
