@@ -77,6 +77,29 @@ For detailed setup instructions, features, and development guide, see:
 - 📱 Fully responsive design
 - ⚡ Optimized performance
 
+## 🌐 Deployment
+
+### Quick Deploy to Vercel
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/Stavin13/Idea-Vault&root-directory=idea-vault&env=NEXT_PUBLIC_SUPABASE_URL,NEXT_PUBLIC_SUPABASE_ANON_KEY&envDescription=Supabase%20configuration%20required%20for%20authentication%20and%20database&envLink=https://supabase.com/dashboard)
+
+### Manual Deployment
+
+1. **Fork this repository**
+2. **Connect to Vercel:**
+   - Go to [vercel.com](https://vercel.com) and sign in
+   - Click "New Project" and import your fork
+   - Set **Root Directory** to `idea-vault`
+   - Set **Install Command** to `npm install --legacy-peer-deps`
+3. **Add Environment Variables:**
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+4. **Deploy!**
+
+See [VERCEL_DEPLOYMENT_GUIDE.md](VERCEL_DEPLOYMENT_GUIDE.md) for detailed troubleshooting.
+
 ## 📄 License
 
 MIT License
