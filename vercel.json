@@ -1,7 +1,7 @@
 {
-  "buildCommand": "cd idea-vault && npm run build",
-  "devCommand": "cd idea-vault && npm run dev", 
-  "installCommand": "cd idea-vault && npm install --legacy-peer-deps",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm run install",
   "outputDirectory": "idea-vault/.next",
   "framework": "nextjs"
 }
