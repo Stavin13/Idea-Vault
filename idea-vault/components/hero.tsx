@@ -10,7 +10,12 @@ const float = (delay = 0) => ({
   animate: {
     y: [0, -10, 0],
     opacity: 1,
-    transition: { duration: 4, delay, repeat: Number.POSITIVE_INFINITY, ease: "easeInOut" },
+    transition: { 
+      duration: 4, 
+      delay, 
+      repeat: Infinity, 
+      ease: "easeInOut" as const 
+    },
   },
 })
 

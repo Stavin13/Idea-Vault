@@ -81,11 +81,11 @@ export function IdeaCard({ idea }: { idea: Idea }) {
         </ul>
         <div className="mt-4 flex items-center gap-3">
           <Avatar className="h-8 w-8">
-            <AvatarImage src={idea.author.avatar || "/placeholder.svg?height=48&width=48&query=avatar"} alt="" />
-            <AvatarFallback>{idea.author.name.slice(0, 2).toUpperCase()}</AvatarFallback>
+            <AvatarImage src={idea.author?.avatar || "/placeholder.svg?height=48&width=48&query=avatar"} alt="" />
+            <AvatarFallback>{idea.author?.name?.slice(0, 2).toUpperCase() || 'AN'}</AvatarFallback>
           </Avatar>
           <div className="text-sm">
-            <div className="font-medium">{idea.author.name}</div>
+            <div className="font-medium">{idea.author?.name || 'Anonymous'}</div>
             <div className="text-muted-foreground">{formatTimestamp(idea.created_at)}</div>
           </div>
         </div>

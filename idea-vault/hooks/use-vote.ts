@@ -34,10 +34,16 @@ export function useVote() {
 
         if (deleteError) throw deleteError
 
-        // Decrement vote count
+        // Get current vote count and decrement
+        const { data: currentIdea } = await supabase
+          .from('ideas')
+          .select('votes')
+          .eq('id', ideaId)
+          .single()
+
         const { error: updateError } = await supabase
           .from('ideas')
-          .update({ votes: supabase.sql`votes - 1` })
+          .update({ votes: Math.max(0, (currentIdea?.votes || 0) - 1) })
           .eq('id', ideaId)
 
         if (updateError) throw updateError
@@ -54,10 +60,16 @@ export function useVote() {
 
         if (insertError) throw insertError
 
-        // Increment vote count
+        // Get current vote count and increment
+        const { data: currentIdea } = await supabase
+          .from('ideas')
+          .select('votes')
+          .eq('id', ideaId)
+          .single()
+
         const { error: updateError } = await supabase
           .from('ideas')
-          .update({ votes: supabase.sql`votes + 1` })
+          .update({ votes: (currentIdea?.votes || 0) + 1 })
           .eq('id', ideaId)
 
         if (updateError) throw updateError
